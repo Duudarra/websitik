@@ -99,7 +99,7 @@
 
             try {
                 // Отправляем данные на сервер
-                const response = await fetch('http://localhost:3306/send-message', {
+                const response = await fetch('http://localhost:5000/responses', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -111,7 +111,7 @@
 
                 // Проверка на успешность запроса
                 if (response.ok) {
-                    alert(data.message); // Сообщение об успешной отправке
+                    alert(data.message || 'Сообщение успешно отправлено'); // Сообщение об успешной отправке
                     document.getElementById('contact-form').reset();
                 } else {
                     alert(data.error || 'Что-то пошло не так!'); // Сообщение об ошибке
