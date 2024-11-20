@@ -20,10 +20,7 @@ def get_responses():
     rows = cursor.fetchall()
     conn.close()
 
-    responses = []
-    for row in rows:
-        responses.append({'id': row['id'], 'name': row['name'], 'email': row['email'], 'message': row['message']})
-
+    responses = [{'id': row['id'], 'name': row['name'], 'email': row['email'], 'message': row['message']} for row in rows]
     return jsonify(responses)
 
 # Эндпоинт для добавления новой записи
@@ -36,16 +33,11 @@ def add_response():
 
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO messages (name, email, message) VALUES (?, ?, ?)",
-                   (name, email, message))
+    cursor.execute("INSERT INTO messages (name, email, message) VALUES (?, ?, ?)", (name, email, message))
     conn.commit()
     conn.close()
 
     return jsonify({'message': 'Response added successfully!'}), 201
-
-@app.route('/')
-def index():
-    return get_responses()
 
 if __name__ == '__main__':
     app.run(debug=True)
