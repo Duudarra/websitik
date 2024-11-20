@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дарья Коковихина</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <a href="#about" class="menu-link">Обо мне</a>
+            <a href="#hobbies" class="menu-link">Хобби</a>
+            <a href="#goals" class="menu-link">Цели</a>
+            <a href="#contact" class="menu-link">Связь со мной</a>
+        </div>
+        <div class="main-content">
+            <!-- Секция "Обо мне" -->
+            <section id="about" class="section">
+                <div class="photo-section">
+                    <img src="photo.jpg" alt="Дарья Коковихина">
+                    <p class="favorite-phrase">любимая фраза: "Браво, 5 баллов"</p>
+                </div>
+                <div class="info-section">
+                    <h1>Коковихина Дарья Олеговна</h1>
+                    <p>
+                        Родилась 8 октября 2004 года в городе Киров. 
+                        В 8 классе заинтересовало программирование, интерес не пропадал, 
+                        а только рос. Поэтому решила поступить в колледж ВятГУ на специальность 
+                        информационные системы и программирование.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Секция "Хобби" -->
+            <section id="hobbies" class="section">
+                <h1>Хобби</h1>
+                <div class="hobbies-gallery">
+                    <div class="hobby-item">
+                        <img src="hobby1.jpg" alt="Хобби 1">
+                        <p>Танцы</p>
+                    </div>
+                    <div class="hobby-item">
+                        <img src="hobby2.jpg" alt="Хобби 2">
+                        <p>Музыка</p>
+                    </div>
+                    <div class="hobby-item">
+                        <img src="hobby3.jpg" alt="Хобби 3">
+                        <p>Фото</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Секция "Цели" -->
+            <section id="goals" class="section">
+                <h1>Цели</h1>
+                <div class="goals-container">
+                    <div class="goal-item" data-image="goal1.jpg">Стать успешным разработчиком</div>
+                    <div class="goal-item" data-image="goal2.jpg">Освоить новые языки программирования</div>
+                    <div class="goal-item" data-image="goal3.jpg">Внести вклад в IT-индустрию</div>
+                </div>
+            </section>
+
+            <!-- Секция "Связь со мной" -->
+            <section id="contact" class="section">
+                <h1>Связь со мной</h1>
+                <ul class="contact-list">
+                    <li><a href="https://vk.com/dudarra" target="_blank">ВКонтакте</a></li>
+                    <li><a href="https://t.me/Solda_ya" target="_blank">Telegram</a></li>
+                    <li><a href="mailto:kokov.dara.8104@gmail.com">Электронная почта</a></li>
+                </ul>
+                <h2>Оставить сообщение</h2>
+
+                <!-- Форма для отправки сообщения -->
+                <form class="contact-form" id="contact-form">
+                    <input type="text" id="name" name="name" placeholder="Ваше имя" required>
+                    <input type="email" id="email" name="email" placeholder="Ваш email" required>
+                    <textarea id="message" name="message" placeholder="Ваше сообщение" rows="5" required></textarea>
+                    <button type="submit">Отправить</button>
+                </form>
+            </section>
+
+        </div>
+    </div>
+
+    <script>
+        // Обработчик отправки формы
+        document.getElementById('contact-form').addEventListener('submit', async (event) => {
+            event.preventDefault(); // Останавливаем стандартную отправку формы
+
+            // Считываем данные из формы
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            // Выводим данные в консоль для отладки
+            console.log("Отправка сообщения", { name, email, message });
+
+            try {
+                // Отправляем данные на сервер
+                const response = await fetch('http://localhost:3306/send-message', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, email, message }),
+                });
+
+                const data = await response.json();
+
+                // Проверка на успешность запроса
+                if (response.ok) {
+                    alert(data.message); // Сообщение об успешной отправке
+                    document.getElementById('contact-form').reset();
+                } else {
+                    alert(data.error || 'Что-то пошло не так!'); // Сообщение об ошибке
+                }
+            } catch (error) {
+                console.error("Ошибка при отправке формы", error);
+                alert("Ошибка при отправке сообщения. Пожалуйста, попробуйте позже.");
+            }
+        });
+    </script>
+
+</body>
+</html>
