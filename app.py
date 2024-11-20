@@ -17,8 +17,8 @@ def get_db_connection():
     return conn
 
 def send_telegram_message(message):
-    token = os.getenv('TELEGRAM_BOT_TOKEN')  # Получаем токен из переменной окружения
-    chat_id = os.getenv('TELEGRAM_CHAT_ID')
+    token = '7711517174:AAEADDphW2twQEg7Zpy30NfI3qf4W_2urF0'  # Получаем токен из переменной окружения
+    chat_id = '747742170'
 
     if not token or not chat_id:
         print("Ошибка: не найдены переменные окружения для Telegram")
