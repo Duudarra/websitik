@@ -19,6 +19,10 @@ def get_db_connection():
 def send_telegram_message(message):
     token = os.getenv('TELEGRAM_BOT_TOKEN')  # Получаем токен из переменной окружения
     chat_id = os.getenv('TELEGRAM_CHAT_ID')
+
+    if not token or not chat_id:
+        print("Ошибка: не найдены переменные окружения для Telegram")
+        return
     
     # Формирование URL для отправки сообщения
     url = f"https://api.telegram.org/bot{token}/sendMessage"
@@ -28,8 +32,9 @@ def send_telegram_message(message):
     }
     
     # Отправка POST запроса в Telegram
-    response = requests.post(url, data=params)
+    response = requests.post(url, json=params)
     
+    print(f"Ответ от Telegram API: {response.status_code}")
     if response.status_code != 200:
         print("Ошибка при отправке сообщения в Telegram")
     else:
