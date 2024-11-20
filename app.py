@@ -2,6 +2,10 @@ from flask import Flask, request, jsonify
 import sqlite3
 from flask_cors import CORS
 import requests 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "https://duudarra.github.io"}})
@@ -13,8 +17,8 @@ def get_db_connection():
     return conn
 
 def send_telegram_message(message):
-    token = '7711517174:AAEADDphW2twQEg7Zpy30NfI3qf4W_2urF0'  # Замените на ваш токен
-    chat_id = '747742170'  # Замените на ваш chat_id
+    token = os.getenv('TELEGRAM_BOT_TOKEN')  # Получаем токен из переменной окружения
+    chat_id = os.getenv('TELEGRAM_CHAT_ID')
     
     # Формирование URL для отправки сообщения
     url = f"https://api.telegram.org/bot{token}/sendMessage"
