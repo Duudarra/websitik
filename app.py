@@ -10,11 +10,11 @@ def get_db_connection():
     return conn
 
 # Эндпоинт для получения всех записей
-@app.route('/responses', methods=['GET'])
+@app.route('/responces', methods=['GET'])
 def get_responses():
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM responses")
+    cursor.execute("SELECT * FROM messages")
     rows = cursor.fetchall()
     conn.close()
 
@@ -25,7 +25,7 @@ def get_responses():
     return jsonify(responses)
 
 # Эндпоинт для добавления новой записи
-@app.route('/responses', methods=['POST'])
+@app.route('/responces', methods=['POST'])
 def add_response():
     data = request.get_json()
     name = data['name']
@@ -34,12 +34,16 @@ def add_response():
 
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO responses (name, email, message) VALUES (?, ?, ?)",
+    cursor.execute("INSERT INTO messages (name, email, message) VALUES (?, ?, ?)",
                    (name, email, message))
     conn.commit()
     conn.close()
 
     return jsonify({'message': 'Response added successfully!'}), 201
+
+@app.route('/')
+def index():
+    return get_responses()
 
 if __name__ == '__main__':
     app.run(debug=True)
