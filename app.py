@@ -69,7 +69,7 @@ def add_response():
     telegram_message = f"Новое сообщение:\nИмя: {name}\nEmail: {email}\nСообщение: {message}"
     send_telegram_message(telegram_message)  # Отправка сообщения в Telegram
 
-    return jsonify({'message': 'Response added successfully!'}), 201
+    return jsonify({'Успешно': 'Ответ отправлен!'}), 201
 
 if __name__ == '__main__':
     app.run(debug=True)
